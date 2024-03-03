@@ -1,0 +1,37 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analyzer</title>
+</head>
+<body>
+    <h1>Sentiment Analyzer</h1>
+    <form id="sentimentForm">
+    <label for="languageSelect">Select Language:</label>
+    <select id="languageSelect" name="language">
+        <option value="en">English</option>
+        <option value="uk">Ukrainian</option>
+    </select><br>
+    <label for="textInput">Enter Text:</label><br>
+    <textarea id="textInput" name="text" rows="4" cols="50"></textarea><br>
+    <button type="submit">Analyze Sentiment</button>
+</form>
+
+    <div id="sentimentResult"></div>
+
+    <script>
+        document.getElementById('sentimentForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/analyze', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('sentimentResult').innerText = `Sentiment: ${data.sentiment}`;
+        });
+    </script>
+</body>
+</html>
